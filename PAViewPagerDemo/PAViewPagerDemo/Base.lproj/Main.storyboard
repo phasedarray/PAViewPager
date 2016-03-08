@@ -80,19 +80,49 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cGw-C0-pel" customClass="PAViewPager" customModule="PAViewPagerDemo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="448"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5OA-jq-764" userLabel="ControlPannel">
+                                <rect key="frame" x="0.0" y="512" width="600" height="88"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Tab Height" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="B7u-eT-Zva">
+                                        <rect key="frame" x="8" y="8" width="97" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="JJm-z8-dgb" id="7Xn-Y3-xom"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Tab Width" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kdJ-5q-0Zr">
+                                        <rect key="frame" x="8" y="50" width="97" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="JJm-z8-dgb" id="X6r-Vk-4n2"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="88" id="Ffh-Y9-5Xt"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="cGw-C0-pel" firstAttribute="leading" secondItem="m5S-uT-4gt" secondAttribute="leading" id="311-3B-29Q"/>
-                            <constraint firstAttribute="trailing" secondItem="cGw-C0-pel" secondAttribute="trailing" id="76M-Yn-cJ2"/>
-                            <constraint firstItem="5eL-w4-MpJ" firstAttribute="top" secondItem="cGw-C0-pel" secondAttribute="bottom" id="CEg-f7-uZ1"/>
-                            <constraint firstItem="cGw-C0-pel" firstAttribute="top" secondItem="f4f-8H-IPp" secondAttribute="bottom" id="ibU-sS-EZC"/>
+                            <constraint firstItem="cGw-C0-pel" firstAttribute="top" secondItem="f4f-8H-IPp" secondAttribute="bottom" id="HOZ-ee-4TJ"/>
+                            <constraint firstAttribute="trailing" secondItem="cGw-C0-pel" secondAttribute="trailing" id="c09-vQ-M4u"/>
+                            <constraint firstItem="5OA-jq-764" firstAttribute="top" secondItem="cGw-C0-pel" secondAttribute="bottom" id="kYF-5v-GFi"/>
+                            <constraint firstItem="cGw-C0-pel" firstAttribute="leading" secondItem="m5S-uT-4gt" secondAttribute="leading" id="pdF-kT-E9t"/>
+                            <constraint firstAttribute="trailing" secondItem="5OA-jq-764" secondAttribute="trailing" id="qtc-Fe-U90"/>
+                            <constraint firstItem="5OA-jq-764" firstAttribute="leading" secondItem="m5S-uT-4gt" secondAttribute="leading" id="ruk-KT-tsd"/>
+                            <constraint firstItem="5eL-w4-MpJ" firstAttribute="top" secondItem="5OA-jq-764" secondAttribute="bottom" id="yZa-Vy-Vch"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="tabHeightTextField" destination="B7u-eT-Zva" id="yME-uG-JqC"/>
+                        <outlet property="tabWidthTextField" destination="kdJ-5q-0Zr" id="0j8-mD-jU4"/>
                         <outlet property="viewPager" destination="cGw-C0-pel" id="nAV-63-Ide"/>
                     </connections>
                 </viewController>

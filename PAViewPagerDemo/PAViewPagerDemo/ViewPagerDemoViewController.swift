@@ -8,15 +8,24 @@
 
 import UIKit
 
-class ViewPagerDemoViewController: UIViewController, PAViewPagerDelegate {
+class ViewPagerDemoViewController: UIViewController, PAViewPagerDelegate, UITextFieldDelegate {
     @IBOutlet var viewPager: PAViewPager!
     
+    @IBOutlet var tabWidthTextField: UITextField!
+    @IBOutlet var tabHeightTextField: UITextField!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewPager.delegate = self
         viewPager.reloadData()
+        viewPager.setSelectedIndex(2, animated: false)
+
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,5 +59,23 @@ class ViewPagerDemoViewController: UIViewController, PAViewPagerDelegate {
         return "Page \(titleForIndex)"
     }
 
+    
+    internal func textFieldDidEndEditing(textField: UITextField)
+    {
+        if textField == tabHeightTextField && tabHeightTextField.text != nil
+        {
+            if let height = Float(tabHeightTextField.text!)
+            {
+                viewPager.tabHeight = CGFloat(height)
+            }
+        }
+        else if textField == tabWidthTextField && tabWidthTextField.text != nil
+        {
+            if let width = Float(tabWidthTextField.text!)
+            {
+                viewPager.tabWidth = CGFloat(width)
+            }
+        }
+    }
 }
 
