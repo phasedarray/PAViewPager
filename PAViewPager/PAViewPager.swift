@@ -23,6 +23,13 @@ import UIKit
 
 public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource
 {
+    public enum AnimationWhenTappingTab
+    {
+        case None
+        case Adjacent
+        case All
+    }
+    
     // MARK: Public properties
     public var tabSelectedBackgroundColor: UIColor = UIColor.orangeColor()
     {
@@ -38,6 +45,8 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     public var titleColor: UIColor = UIColor.blackColor()
     public var titleFont: UIFont = UIFont.systemFontOfSize(14)
     public var selectedTitleColor: UIColor = UIColor.whiteColor()
+    public var animatedScrollWhenTappingTab: AnimationWhenTappingTab = .Adjacent
+    
     public var tabHeight: CGFloat  = 44 {
         didSet
         {
@@ -51,6 +60,17 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         didSet
         {
             self.tabCollectionView.collectionViewLayout.invalidateLayout()
+        }
+    }
+    
+    public var tabOffset: CGFloat = 0 {
+        didSet
+        {
+            if let flowLayout = self.tabCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
+            {
+                flowLayout.sectionInset = UIEdgeInsets(top: 0, left: tabOffset, bottom: 0, right: 0)
+                flowLayout.invalidateLayout()
+            }
         }
     }
     
@@ -93,8 +113,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         layout.minimumLineSpacing = 0
         self.tabCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
         self.tabCollectionView.backgroundColor = UIColor.clearColor()
-//        self.tabCollectionView.alwaysBounceVertical = false
-//        self.tabCollectionView.showsVerticalScrollIndicator = false
+        self.tabCollectionView.showsHorizontalScrollIndicator = false
         
         let layout2 = UICollectionViewFlowLayout()
         layout2.scrollDirection = .Horizontal
@@ -104,7 +123,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         
         self.contentCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout2)
         self.contentCollectionView.pagingEnabled = true
-        
+        self.contentCollectionView.showsHorizontalScrollIndicator = false
         self.tabCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: titleCellIndentifier)
 
         super.init(coder: aDecoder)
@@ -118,7 +137,10 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         if index < numberOfItems
         {
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
-            self.tabCollectionView.selectItemAtIndexPath(indexPath, animated: animated, scrollPosition: .CenteredHorizontally)
+            if self.tabCollectionView.indexPathsForSelectedItems()?.count > 0
+            {
+                self.tabCollectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .CenteredHorizontally)
+            }
             self.collectionView(tabCollectionView, didDeselectItemAtIndexPath: NSIndexPath(forRow: _selectedIndex, inSection: 0))
             _selectedIndex = index
             self.collectionView(tabCollectionView, didSelectItemAtIndexPath: indexPath)
@@ -133,8 +155,27 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     
     func reloadData()
     {
+        numberOfItems = tabCollectionView.numberOfItemsInSection(0)
         self.tabCollectionView.reloadData()
         self.contentCollectionView.reloadData()
+    }
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if (_selectedIndex < numberOfItems)
+        {
+            let indexPath = NSIndexPath(forRow: _selectedIndex, inSection: 0)
+            if let indexes = self.tabCollectionView.indexPathsForSelectedItems()
+            {
+                if indexes.count > 0 && indexes[0].row == _selectedIndex
+                {
+                    return
+                }
+            }
+            self.tabCollectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .CenteredHorizontally)
+            return
+        }
     }
     
     func addConstraintsToSubviews()
@@ -157,8 +198,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         {
             return 0
         }
-        numberOfItems = delegate.numberOfPageInViewPager(self)
-        return numberOfItems
+        return delegate.numberOfPageInViewPager(self)
     }
     
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
@@ -239,7 +279,19 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
                     }
                 }
             }
-            contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: offset <= 1)
+            var anmiated = false
+            switch(animatedScrollWhenTappingTab)
+            {
+            case .None:
+                    anmiated = false
+                
+            case .All:
+                    anmiated = true
+            case .Adjacent:
+                    anmiated = (offset == 1)
+            }
+            
+            contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: anmiated)
         }
     }
     
