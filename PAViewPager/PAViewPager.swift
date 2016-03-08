@@ -38,7 +38,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     public var titleColor: UIColor = UIColor.blackColor()
     public var titleFont: UIFont = UIFont.systemFontOfSize(14)
     public var selectedTitleColor: UIColor = UIColor.whiteColor()
-    public var tabHeight: CGFloat  = 88 {
+    public var tabHeight: CGFloat  = 44 {
         didSet
         {
             tabHeightConstraint.constant = tabHeight
@@ -46,7 +46,13 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             self.contentCollectionView.collectionViewLayout.invalidateLayout()
         }
     }
-
+    
+    public var tabWidth: CGFloat = 0 {
+        didSet
+        {
+            self.tabCollectionView.collectionViewLayout.invalidateLayout()
+        }
+    }
     
     // MARK: Private variables
     var tabCollectionView: UICollectionView
@@ -112,12 +118,11 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         if index < numberOfItems
         {
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
-            self.tabCollectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .CenteredHorizontally)
+            self.tabCollectionView.selectItemAtIndexPath(indexPath, animated: animated, scrollPosition: .CenteredHorizontally)
             self.collectionView(tabCollectionView, didDeselectItemAtIndexPath: NSIndexPath(forRow: _selectedIndex, inSection: 0))
             _selectedIndex = index
             self.collectionView(tabCollectionView, didSelectItemAtIndexPath: indexPath)
             self.contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Left, animated: animated)
-            
         }
     }
     
@@ -130,7 +135,6 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     {
         self.tabCollectionView.reloadData()
         self.contentCollectionView.reloadData()
-        
     }
     
     func addConstraintsToSubviews()
@@ -210,7 +214,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     {
         if collectionView == tabCollectionView
         {
-            return CGSize(width: CGFloat( Float(CGRectGetWidth(self.frame)) / Float(numberOfItems)), height: tabHeight)
+            return CGSize(width: tabWidth > 0 ? tabWidth : CGFloat( Float(CGRectGetWidth(self.frame)) / Float(numberOfItems)), height: tabHeight)
         }
         else
         {
@@ -262,7 +266,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         if scrollView == contentCollectionView
         {
             let i = scrollView.contentOffset.x / CGRectGetWidth(scrollView.frame)
-            self.setSelectedIndex(Int(i), animated: false)
+            self.setSelectedIndex(Int(i), animated: true)
         }
     }
     
