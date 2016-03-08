@@ -174,6 +174,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
                 }
             }
             self.tabCollectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .CenteredHorizontally)
+            self.contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Left, animated: false)
             return
         }
     }
