@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  s.name         = "paviewpager.podspec"
+  s.name         = "paviewpager"
   s.version      = "0.0.1"
   s.summary      = "A pager view which perfectly supports autolayout and rotation on both iPhone and iPad"
 
@@ -78,7 +78,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "git@github.com:phasedarray/PAViewPager.git"}
+  s.source       = { :git => "https://github.com/phasedarray/PAViewPager.git"}
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
