@@ -27,7 +27,7 @@
                                                     <rect key="frame" x="15" y="0.0" width="570" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -47,7 +47,7 @@
                                                     <rect key="frame" x="15" y="0.0" width="570" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -102,10 +102,23 @@
                                             <outlet property="delegate" destination="JJm-z8-dgb" id="X6r-Vk-4n2"/>
                                         </connections>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TT3-YT-zUV">
+                                        <rect key="frame" x="497" y="29" width="86" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="86" id="m8N-CJ-xVw"/>
+                                        </constraints>
+                                        <state key="normal" title="Tab Position"/>
+                                        <connections>
+                                            <action selector="changeTabPosition" destination="JJm-z8-dgb" eventType="touchUpInside" id="qFF-wV-ohB"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="88" id="Ffh-Y9-5Xt"/>
+                                    <constraint firstAttribute="trailing" secondItem="TT3-YT-zUV" secondAttribute="trailing" constant="17" id="TjP-as-KBG"/>
+                                    <constraint firstItem="TT3-YT-zUV" firstAttribute="top" secondItem="5OA-jq-764" secondAttribute="top" constant="29" id="dRC-Nc-tB2"/>
+                                    <constraint firstAttribute="bottom" secondItem="TT3-YT-zUV" secondAttribute="bottom" constant="29" id="dhx-JL-SE3"/>
                                 </constraints>
                             </view>
                         </subviews>

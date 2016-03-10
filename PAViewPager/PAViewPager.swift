@@ -30,6 +30,12 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         case All
     }
     
+    public enum TabPosition
+    {
+        case Top
+        case Bottom
+    }
+    
     // MARK: Public properties
     public var tabSelectedBackgroundColor: UIColor = UIColor.orangeColor()
     {
@@ -74,6 +80,28 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         }
     }
     
+    public var tabPosition: TabPosition = .Top
+    {
+        didSet
+        {
+            if self.verticalLayoutConstraints.count > 0
+            {
+                self.removeConstraints(self.verticalLayoutConstraints)
+            }
+            var layoutStr = "V:|[tab(\(tabHeight))]-(0)-[content]|"
+            if tabPosition == .Bottom
+            {
+                layoutStr = "V:|[content]-(0)-[tab(\(tabHeight))]|"
+            }
+            
+            let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat(layoutStr, options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["tab": tabCollectionView, "content": contentCollectionView])
+            self.tabHeightConstraint = vConstraints[1]
+            self.verticalLayoutConstraints = vConstraints
+            self.addConstraints(vConstraints)
+            self.layoutIfNeeded()
+        }
+    }
+    
     // MARK: Private variables
     var tabCollectionView: UICollectionView
     var contentCollectionView: UICollectionView
@@ -83,6 +111,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     var tabDequeueDictionary:[String:Bool] = [:]
     var contentDequeueDictionary: [String:Bool] = [:]
     var tabHeightConstraint: NSLayoutConstraint!
+    var verticalLayoutConstraints: [NSLayoutConstraint] = []
     
     private var _selectedIndex:Int = 0
 
@@ -183,14 +212,18 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     {
         self.tabCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.contentCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[tab(\(tabHeight))]-(0)-[content]|", options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["tab": tabCollectionView, "content": contentCollectionView])
-        self.tabHeightConstraint = vConstraints[1]
+        
         let hTabConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tab]|", options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["tab": tabCollectionView])
         let hContentConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[content]|", options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["content": contentCollectionView])
-        self.addConstraints(vConstraints)
         self.addConstraints(hTabConstraints)
         self.addConstraints(hContentConstraints)
+        self.tabPosition = .Top
         self.layoutIfNeeded()
+    }
+    
+    func setupVerticalLayout(tabPosition: TabPosition)
+    {
+        
     }
     
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int

@@ -77,5 +77,17 @@ class ViewPagerDemoViewController: UIViewController, PAViewPagerDelegate, UIText
             }
         }
     }
+    
+    @IBAction func changeTabPosition ()
+    {
+        if viewPager.tabPosition == PAViewPager.TabPosition.Top
+        {
+            viewPager.tabPosition = PAViewPager.TabPosition.Bottom
+        }
+        else
+        {
+            viewPager.tabPosition = .Top
+        }
+    }
 }
 
