@@ -52,8 +52,16 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     public var titleFont: UIFont = UIFont.systemFontOfSize(14)
     public var selectedTitleColor: UIColor = UIColor.whiteColor()
     public var animatedScrollWhenTappingTab: AnimationWhenTappingTab = .Adjacent
+    public var allowScroll = true
+    {
+        didSet
+        {
+            self.contentCollectionView.scrollEnabled = allowScroll
+        }
+    }
     
-    public var tabHeight: CGFloat  = 44 {
+    public var tabHeight: CGFloat  = 44
+    {
         didSet
         {
             tabHeightConstraint.constant = tabHeight
@@ -62,14 +70,16 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         }
     }
     
-    public var tabWidth: CGFloat = 0 {
+    public var tabWidth: CGFloat = 0
+    {
         didSet
         {
             self.tabCollectionView.collectionViewLayout.invalidateLayout()
         }
     }
     
-    public var tabOffset: CGFloat = 0 {
+    public var tabOffset: CGFloat = 0
+    {
         didSet
         {
             if let flowLayout = self.tabCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
@@ -173,7 +183,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             self.collectionView(tabCollectionView, didDeselectItemAtIndexPath: NSIndexPath(forRow: _selectedIndex, inSection: 0))
             _selectedIndex = index
             self.collectionView(tabCollectionView, didSelectItemAtIndexPath: indexPath)
-            self.contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Left, animated: animated)
+            self.contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Left, animated: animated && allowScroll)
         }
     }
     
@@ -328,7 +338,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
                     anmiated = (offset == 1)
             }
             
-            contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: anmiated)
+            contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: anmiated && allowScroll)
         }
     }
     
@@ -428,5 +438,17 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             return cell
         }
         return self.tabCollectionView.dequeueReusableCellWithReuseIdentifier(indentifier, forIndexPath: indexPath)
+    }
+}
+
+public extension PAViewPager
+{
+    public func setAsNormalTabBarStyle(tabPosition: TabPosition)
+    {
+        self.allowScroll = false
+        self.tabWidth = 0
+        self.tabOffset = 0
+        self.tabPosition = tabPosition
+        self.animatedScrollWhenTappingTab = .None
     }
 }
