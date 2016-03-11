@@ -191,6 +191,9 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     
     public override func layoutSubviews() {
         super.layoutSubviews()
+        self.layoutIfNeeded()
+        self.tabCollectionView.collectionViewLayout.invalidateLayout()
+        self.contentCollectionView.collectionViewLayout.invalidateLayout()
         
         if (_selectedIndex < numberOfItems)
         {
@@ -199,7 +202,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             {
                 if indexes.count > 0 && indexes[0].row == _selectedIndex
                 {
-                    return
+                    //return
                 }
             }
             self.tabCollectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .CenteredHorizontally)
