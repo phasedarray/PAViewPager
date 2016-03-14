@@ -17,22 +17,26 @@ extension UIView
         case Both
     }
     
-    func fillParent(direction: Direction)
+    func fillParent(direction: Direction) -> [NSLayoutConstraint]?
     {
         guard let superview = self.superview else
         {
-            return
+            return nil
         }
+        var constraints: [NSLayoutConstraint] = []
         self.translatesAutoresizingMaskIntoConstraints = false
         if direction == .Vertical || direction == .Both
         {
             let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["view": self])
             superview.addConstraints(vConstraints)
+            constraints.appendContentsOf(vConstraints)
         }
         if direction == .Horizontal || direction == .Both
         {
             let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["view": self])
             superview.addConstraints(hConstraints)
+            constraints.appendContentsOf(constraints)
         }
+        return constraints
     }
 }

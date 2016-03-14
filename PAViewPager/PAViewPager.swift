@@ -41,10 +41,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     {
         didSet
         {
-            if let selectedItems = self.tabCollectionView.indexPathsForSelectedItems()
-            {
-                self.tabCollectionView.reloadItemsAtIndexPaths(selectedItems)
-            }
+            self.selectionIndicatorView.backgroundColor = tabSelectedBackgroundColor
         }
     }
     
@@ -52,6 +49,8 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     public var titleFont: UIFont = UIFont.systemFontOfSize(14)
     public var selectedTitleColor: UIColor = UIColor.whiteColor()
     public var animatedScrollWhenTappingTab: AnimationWhenTappingTab = .Adjacent
+    public var needAnimateSelectionIndictor: Bool = true
+    
     public var allowScroll = true
     {
         didSet
@@ -98,19 +97,56 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             {
                 self.removeConstraints(self.verticalLayoutConstraints)
             }
+            self.tabView.translatesAutoresizingMaskIntoConstraints = false
+            self.contentCollectionView.translatesAutoresizingMaskIntoConstraints = false
             var layoutStr = "V:|[tab(\(tabHeight))]-(0)-[content]|"
             if tabPosition == .Bottom
             {
                 layoutStr = "V:|[content]-(0)-[tab(\(tabHeight))]|"
             }
             
-            let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat(layoutStr, options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["tab": tabCollectionView, "content": contentCollectionView])
+            let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat(layoutStr, options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["tab": tabView, "content": contentCollectionView])
             self.tabHeightConstraint = vConstraints[1]
             self.verticalLayoutConstraints = vConstraints
             self.addConstraints(vConstraints)
             self.layoutIfNeeded()
         }
     }
+    
+    public var tabBackgroundColor: UIColor = UIColor.lightGrayColor()
+    {
+        didSet
+        {
+            self.tabView.backgroundColor = tabBackgroundColor
+        }
+    }
+    
+    // MARK: SelectionIndicator parameters
+    public var selectionIndicatorHeight: CGFloat = 44
+    {
+        didSet
+        {
+            self.selectionIndicatorVerticalConstraints[1].constant = selectionIndicatorHeight
+        }
+    }
+    
+    public var selectionIndicatorY: CGFloat = 40 {
+        didSet
+        {
+            self.selectionIndicatorVerticalConstraints[0].constant = selectionIndicatorY
+        }
+    }
+    
+    public var selectionIndicatorWidth: CGFloat = 0 {
+        didSet
+        {
+            self.selectionIndicatorVerticalConstraints[1].constant = selectionIndicatorWidth
+            adjustSelectionIndicator()
+        }
+    }
+
+    
+    public var selectionIndicatorView: UIView
     
     // MARK: Private variables
     var tabCollectionView: UICollectionView
@@ -121,7 +157,11 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     var tabDequeueDictionary:[String:Bool] = [:]
     var contentDequeueDictionary: [String:Bool] = [:]
     var tabHeightConstraint: NSLayoutConstraint!
+    
+    var selectionIndicatorVerticalConstraints: [NSLayoutConstraint] = []
+    var selectionIndicatorHorizontalConstraints: [NSLayoutConstraint] = []
     var verticalLayoutConstraints: [NSLayoutConstraint] = []
+    var tabView: UIView
     
     private var _selectedIndex:Int = 0
 
@@ -140,11 +180,24 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         self.tabCollectionView = UICollectionView()
         self.contentCollectionView = UICollectionView()
         self.tabCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: titleCellIndentifier)
+        
+        self.tabView = UIView(frame: CGRectZero)
+        self.selectionIndicatorView = UIView(frame: CGRectZero)
+        self.tabView.addSubview(selectionIndicatorView)
+        
         super.init(frame: frame)
         self.addConstraintsToSubviews()
     }
     
     public required init?(coder aDecoder: NSCoder) {
+        
+        self.tabView = UIView(frame: CGRectZero)
+        self.selectionIndicatorView = UIView(frame: CGRectZero)
+        self.selectionIndicatorView.backgroundColor = tabSelectedBackgroundColor
+        self.tabView.backgroundColor = self.tabBackgroundColor
+        
+    
+        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .Horizontal
         layout.minimumInteritemSpacing = 0
@@ -164,9 +217,11 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         self.contentCollectionView.pagingEnabled = true
         self.contentCollectionView.showsHorizontalScrollIndicator = false
         self.tabCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: titleCellIndentifier)
-
+        
         super.init(coder: aDecoder)
-        self.addSubview(tabCollectionView)
+        tabView.addSubview(selectionIndicatorView)
+        tabView.addSubview(tabCollectionView)
+        self.addSubview(tabView)
         self.addSubview(contentCollectionView)
         self.addConstraintsToSubviews()
     }
@@ -184,6 +239,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             _selectedIndex = index
             self.collectionView(tabCollectionView, didSelectItemAtIndexPath: indexPath)
             self.contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Left, animated: animated && allowScroll)
+            adjustSelectionIndicator(needAnimateSelectionIndictor)
         }
     }
     
@@ -217,20 +273,25 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             }
             self.tabCollectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .CenteredHorizontally)
             self.contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Left, animated: false)
+            adjustSelectionIndicator(false)
             return
         }
     }
     
     func addConstraintsToSubviews()
     {
-        self.tabCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        self.contentCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let hTabConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tab]|", options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["tab": tabCollectionView])
-        let hContentConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[content]|", options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["content": contentCollectionView])
-        self.addConstraints(hTabConstraints)
-        self.addConstraints(hContentConstraints)
+        self.tabCollectionView.fillParent(.Both)
+        self.tabView.fillParent(.Horizontal)
+        self.contentCollectionView.fillParent(.Horizontal)
         self.tabPosition = .Top
+        
+        self.selectionIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-\(self.selectionIndicatorY)-[selectionView(\(self.selectionIndicatorHeight))]|", options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["selectionView": self.selectionIndicatorView])
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[selectionView(\(self.selectionIndicatorWidth))]|", options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["selectionView": self.selectionIndicatorView])
+        self.selectionIndicatorVerticalConstraints = vConstraints
+        self.selectionIndicatorHorizontalConstraints = hConstraints
+        self.addConstraints(vConstraints)
+        self.addConstraints(hConstraints)
         self.layoutIfNeeded()
     }
     
@@ -339,6 +400,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             }
             
             contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: anmiated && allowScroll)
+            adjustSelectionIndicator(needAnimateSelectionIndictor)
         }
     }
     
@@ -389,8 +451,10 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         if delegate.respondsToSelector("viewPager:titleForIndex:")
         {
             let cell = self.tabCollectionView.dequeueReusableCellWithReuseIdentifier(titleCellIndentifier, forIndexPath: indexPath)
-            cell.selectedBackgroundView = UIView(frame: CGRectZero)
-            cell.selectedBackgroundView?.backgroundColor = self.tabSelectedBackgroundColor
+            cell.backgroundColor = UIColor.clearColor()
+            cell.backgroundView = UIView()
+//            cell.selectedBackgroundView = UIView(frame: CGRectZero)
+//            cell.selectedBackgroundView?.backgroundColor = self.tabSelectedBackgroundColor
             var titleLabel = cell.contentView.viewWithTag(kCommonTag) as? UILabel
             if titleLabel == nil
             {
@@ -438,6 +502,35 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             return cell
         }
         return self.tabCollectionView.dequeueReusableCellWithReuseIdentifier(indentifier, forIndexPath: indexPath)
+    }
+    
+    private func adjustSelectionIndicator(animated: Bool = false)
+    {
+        var width = self.selectionIndicatorWidth
+        if width == 0
+        {
+            width = CGRectGetWidth(self.frame) / CGFloat(numberOfItems)
+        }
+        if let cell = self.tabCollectionView.cellForItemAtIndexPath(NSIndexPath(forRow: self.selectedIndex(), inSection: 0))
+        {
+            if let superview = cell.superview
+            {
+                let x = superview.convertPoint(cell.center, toView: self.tabView).x
+                let block = {
+                    self.selectionIndicatorHorizontalConstraints[0].constant = x - width / 2
+                    self.layoutIfNeeded()
+                }
+                if animated
+                {
+                    UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: block, completion: nil)
+                }
+                else
+                {
+                    block()
+                }
+            }
+        }
+        self.selectionIndicatorHorizontalConstraints[1].constant = width
     }
 }
 
