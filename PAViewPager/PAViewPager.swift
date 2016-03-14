@@ -177,53 +177,56 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     }
     
     override public init(frame: CGRect) {
-        self.tabCollectionView = UICollectionView()
-        self.contentCollectionView = UICollectionView()
-        self.tabCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: titleCellIndentifier)
-        
+        let contentlayout = UICollectionViewFlowLayout()
+        let tabLayout = UICollectionViewFlowLayout()
         self.tabView = UIView(frame: CGRectZero)
         self.selectionIndicatorView = UIView(frame: CGRectZero)
-        self.tabView.addSubview(selectionIndicatorView)
-        
+        self.tabCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: tabLayout)
+        self.contentCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: contentlayout)
         super.init(frame: frame)
-        self.addConstraintsToSubviews()
+        self.initViews()
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        
+        let contentlayout = UICollectionViewFlowLayout()
+        let tabLayout = UICollectionViewFlowLayout()
         self.tabView = UIView(frame: CGRectZero)
         self.selectionIndicatorView = UIView(frame: CGRectZero)
-        self.selectionIndicatorView.backgroundColor = tabSelectedBackgroundColor
-        self.tabView.backgroundColor = self.tabBackgroundColor
-        
+        self.tabCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: tabLayout)
+        self.contentCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: contentlayout)
+        super.init(coder: aDecoder)
+        self.initViews()
+    }
     
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .Horizontal
-        layout.minimumInteritemSpacing = 0
-        layout.sectionInset = UIEdgeInsetsZero
-        layout.minimumLineSpacing = 0
-        self.tabCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
+    func initViews()
+    {
+        if let tabLayout = tabCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
+        {
+            tabLayout.scrollDirection = .Horizontal
+            tabLayout.minimumInteritemSpacing = 0
+            tabLayout.sectionInset = UIEdgeInsetsZero
+            tabLayout.minimumLineSpacing = 0
+        }
         self.tabCollectionView.backgroundColor = UIColor.clearColor()
         self.tabCollectionView.showsHorizontalScrollIndicator = false
-        
-        let layout2 = UICollectionViewFlowLayout()
-        layout2.scrollDirection = .Horizontal
-        layout2.minimumInteritemSpacing = 0
-        layout2.sectionInset = UIEdgeInsetsZero
-        layout2.minimumLineSpacing = 0
-        
-        self.contentCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout2)
+        self.tabCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: titleCellIndentifier)
+        self.tabView.backgroundColor = self.tabBackgroundColor
+
+        if let contentLayout = contentCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
+        {
+            contentLayout.scrollDirection = .Horizontal
+            contentLayout.minimumInteritemSpacing = 0
+            contentLayout.sectionInset = UIEdgeInsetsZero
+            contentLayout.minimumLineSpacing = 0
+        }
         self.contentCollectionView.pagingEnabled = true
         self.contentCollectionView.showsHorizontalScrollIndicator = false
-        self.tabCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: titleCellIndentifier)
-        
-        super.init(coder: aDecoder)
         tabView.addSubview(selectionIndicatorView)
         tabView.addSubview(tabCollectionView)
         self.addSubview(tabView)
         self.addSubview(contentCollectionView)
         self.addConstraintsToSubviews()
+        self.selectionIndicatorView.backgroundColor = tabSelectedBackgroundColor
     }
     
     public func setSelectedIndex(index: Int, animated: Bool)
