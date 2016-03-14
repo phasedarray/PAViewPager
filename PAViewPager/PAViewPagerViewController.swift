@@ -15,9 +15,13 @@ public class PAViewPagerViewController: UIViewController, PAViewPagerDelegate {
     public required init?(coder aDecoder: NSCoder) {
         self.viewPager = PAViewPager(frame: CGRectZero)
         super.init(coder: aDecoder)
-        self.view = self.viewPager
-        self.viewPager.delegate = self
-        self.viewPager.setAsNormalTabBarStyle(PAViewPager.TabPosition.Top)
+        self.setup()
+    }
+    
+    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        self.viewPager = PAViewPager(frame: CGRectZero)
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        self.setup()
     }
     
     public var subViewControllers:[UIViewController] = []
@@ -57,5 +61,12 @@ public class PAViewPagerViewController: UIViewController, PAViewPagerDelegate {
             return title
         }
         return ""
+    }
+    
+    private func setup()
+    {
+        self.view = self.viewPager
+        self.viewPager.delegate = self
+        self.viewPager.setAsNormalTabBarStyle(PAViewPager.TabPosition.Top)
     }
 }
