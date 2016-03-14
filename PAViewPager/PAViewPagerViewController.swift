@@ -27,7 +27,6 @@ public class PAViewPagerViewController: UIViewController, PAViewPagerDelegate {
             oldValues.forEach { (vc) -> () in
                 vc.removeFromParentViewController()
             }
-            subViewControllers.removeAll()
             subViewControllers.forEach { (vc) -> () in
                 self.addChildViewController(vc)
                 
