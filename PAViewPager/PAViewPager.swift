@@ -289,8 +289,8 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         self.tabPosition = .Top
         
         self.selectionIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-\(self.selectionIndicatorY)-[selectionView(\(self.selectionIndicatorHeight))]|", options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["selectionView": self.selectionIndicatorView])
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[selectionView(\(self.selectionIndicatorWidth))]|", options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["selectionView": self.selectionIndicatorView])
+        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-\(self.selectionIndicatorY)-[selectionView(\(self.selectionIndicatorHeight))]", options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["selectionView": self.selectionIndicatorView])
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[selectionView(\(self.selectionIndicatorWidth))]", options:NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["selectionView": self.selectionIndicatorView])
         self.selectionIndicatorVerticalConstraints = vConstraints
         self.selectionIndicatorHorizontalConstraints = hConstraints
         self.addConstraints(vConstraints)
