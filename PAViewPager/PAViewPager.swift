@@ -547,4 +547,13 @@ public extension PAViewPager
         self.tabPosition = tabPosition
         self.animatedScrollWhenTappingTab = .None
     }
+    
+    public func setAsViewPagerStyle(tabPosition: TabPosition)
+    {
+        self.allowScroll = true
+        self.tabWidth = 0
+        self.tabOffset = 0
+        self.tabPosition = tabPosition
+        self.animatedScrollWhenTappingTab = .Adjacent
+    }
 }

@@ -20,7 +20,7 @@ class ViewPagerDemoViewController: UIViewController, PAViewPagerDelegate, UIText
         viewPager.delegate = self
         viewPager.reloadData()
         viewPager.setSelectedIndex(2, animated: false)
-        viewPager.setAsNormalTabBarStyle(.Top)
+        viewPager.setAsViewPagerStyle(.Bottom)
 
         // Do any additional setup after loading the view, typically from a nib.
     }
