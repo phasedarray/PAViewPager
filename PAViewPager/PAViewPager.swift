@@ -18,7 +18,7 @@ import UIKit
     optional func viewPager(viewPager: PAViewPager, titleForIndex: Int) -> String
     
     optional func viewPager(viewPager: PAViewPager, reusableIdentifierForTitleViewIndex: Int) -> String
-    optional func viewPager(viewPager: PAViewPager, titleViewForIndex: Int) -> Int
+    optional func viewPager(viewPager: PAViewPager, resuableTitleView: UIView?, titleViewForIndex: Int) -> UIView
 }
 
 public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource
@@ -490,8 +490,8 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             }
             let cell = self.tabCollectionView.dequeueReusableCellWithReuseIdentifier(indentifier, forIndexPath: indexPath)
             let view = cell.contentView.viewWithTag(kCommonTag)
-            let tabView = delegate.viewPager(self, resuableView: view, viewForIndex: indexPath.row)
-            if tabView.superview == cell.contentView
+            let tabView = delegate.viewPager!(self, resuableTitleView: view, titleViewForIndex: indexPath.row)
+            if tabView.superview != cell.contentView
             {
                 let subviews = cell.contentView.subviews.map({ (view) -> UIView in
                     return view

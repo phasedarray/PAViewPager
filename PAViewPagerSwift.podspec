@@ -15,8 +15,8 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  s.name         = "PAViewPager-Swift"
-  s.version      = "1.0.0"
+  s.name         = "PAViewPagerSwift"
+  s.version      = "1.0.1"
   s.summary      = "A view pager which perfectly supports autolayout and rotation on both iPhone and iPad"
 
   # This description is used to generate tags and improve search results.

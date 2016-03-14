@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		072CA6211C970C9C0084B3E9 /* PAViewPagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072CA6201C970C9C0084B3E9 /* PAViewPagerViewController.swift */; };
 		078FFE341C7C5DA60061BEC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078FFE331C7C5DA60061BEC7 /* AppDelegate.swift */; };
 		078FFE361C7C5DA60061BEC7 /* ViewPagerDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078FFE351C7C5DA60061BEC7 /* ViewPagerDemoViewController.swift */; };
 		078FFE391C7C5DA60061BEC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 078FFE371C7C5DA60061BEC7 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		072CA6201C970C9C0084B3E9 /* PAViewPagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PAViewPagerViewController.swift; sourceTree = "<group>"; };
 		078FFE301C7C5DA60061BEC7 /* PAViewPagerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PAViewPagerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		078FFE331C7C5DA60061BEC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		078FFE351C7C5DA60061BEC7 /* ViewPagerDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPagerDemoViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 			children = (
 				078FFE461C7C5DE30061BEC7 /* PAViewPager.swift */,
 				07AE3D3E1C8D63EE00675EDC /* PAUIViewLayout.swift */,
+				072CA6201C970C9C0084B3E9 /* PAViewPagerViewController.swift */,
 			);
 			name = PAViewPager;
 			path = ../PAViewPager;
@@ -156,6 +159,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				072CA6211C970C9C0084B3E9 /* PAViewPagerViewController.swift in Sources */,
 				078FFE471C7C5DE30061BEC7 /* PAViewPager.swift in Sources */,
 				078FFE361C7C5DA60061BEC7 /* ViewPagerDemoViewController.swift in Sources */,
 				07AE3D3D1C8D556700675EDC /* ContentView.swift in Sources */,
