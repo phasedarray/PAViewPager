@@ -15,16 +15,16 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  s.name         = "paviewpager"
-  s.version      = "0.0.1"
-  s.summary      = "A pager view which perfectly supports autolayout and rotation on both iPhone and iPad"
+  s.name         = "PAViewPager-Swift"
+  s.version      = "1.0.0"
+  s.summary      = "A view pager which perfectly supports autolayout and rotation on both iPhone and iPad"
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
   #   * Try to keep it short, snappy and to the point.
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
-  s.description  = "A pager view which perfectly supports autolayout and rotation on both iPhone and iPad"
+  s.description  = "A view pager which perfectly supports autolayout and rotation on both iPhone and iPad"
 
   s.homepage     = "https://github.com/phasedarray"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
