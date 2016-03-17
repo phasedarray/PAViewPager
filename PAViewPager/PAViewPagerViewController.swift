@@ -13,7 +13,7 @@ public class PAViewPagerViewController: UIViewController, PAViewPagerDelegate {
     public var viewPager: PAViewPager
     
     public required init?(coder aDecoder: NSCoder) {
-        self.viewPager = PAViewPager(frame: CGRectZero)
+        self.viewPager = PAViewPager(frame: CGRect(x: 0, y: 0, width: 0, height: 44))
         super.init(coder: aDecoder)
         self.edgesForExtendedLayout = .None
     }

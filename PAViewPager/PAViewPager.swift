@@ -161,7 +161,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     var selectionIndicatorVerticalConstraints: [NSLayoutConstraint] = []
     var selectionIndicatorHorizontalConstraints: [NSLayoutConstraint] = []
     var verticalLayoutConstraints: [NSLayoutConstraint] = []
-    var tabView: UIView
+    public var tabView: UIView
     
     private var _selectedIndex:Int = 0
 
@@ -526,6 +526,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
                 }
                 if animated
                 {
+                    self.layoutIfNeeded()
                     UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: block, completion: nil)
                 }
                 else
