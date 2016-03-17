@@ -15,7 +15,7 @@ public class PAViewPagerViewController: UIViewController, PAViewPagerDelegate {
     public required init?(coder aDecoder: NSCoder) {
         self.viewPager = PAViewPager(frame: CGRectZero)
         super.init(coder: aDecoder)
-        self.setup()
+        self.edgesForExtendedLayout = .None
     }
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
@@ -37,6 +37,11 @@ public class PAViewPagerViewController: UIViewController, PAViewPagerDelegate {
             }
             viewPager.reloadData()
         }
+    }
+    
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        self.setup()
     }
     
     public func numberOfPageInViewPager(viewPager: PAViewPager) -> Int
@@ -65,7 +70,8 @@ public class PAViewPagerViewController: UIViewController, PAViewPagerDelegate {
     
     private func setup()
     {
-        self.view = self.viewPager
+        self.view.addSubview( self.viewPager)
+        self.viewPager.fillParent(.Both)
         self.viewPager.delegate = self
         self.viewPager.setAsNormalTabBarStyle(PAViewPager.TabPosition.Top)
     }

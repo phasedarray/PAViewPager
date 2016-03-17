@@ -14,6 +14,7 @@
 		078FFE3B1C7C5DA60061BEC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 078FFE3A1C7C5DA60061BEC7 /* Assets.xcassets */; };
 		078FFE3E1C7C5DA60061BEC7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 078FFE3C1C7C5DA60061BEC7 /* LaunchScreen.storyboard */; };
 		078FFE471C7C5DE30061BEC7 /* PAViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078FFE461C7C5DE30061BEC7 /* PAViewPager.swift */; };
+		07930C621C9A9C55004418B2 /* MyViewPagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07930C611C9A9C55004418B2 /* MyViewPagerViewController.swift */; };
 		07AE3D3B1C8D552E00675EDC /* ContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07AE3D3A1C8D552E00675EDC /* ContentView.xib */; };
 		07AE3D3D1C8D556700675EDC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AE3D3C1C8D556700675EDC /* ContentView.swift */; };
 		07AE3D3F1C8D63EE00675EDC /* PAUIViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AE3D3E1C8D63EE00675EDC /* PAUIViewLayout.swift */; };
@@ -29,6 +30,7 @@
 		078FFE3D1C7C5DA60061BEC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		078FFE3F1C7C5DA60061BEC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		078FFE461C7C5DE30061BEC7 /* PAViewPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PAViewPager.swift; sourceTree = "<group>"; };
+		07930C611C9A9C55004418B2 /* MyViewPagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyViewPagerViewController.swift; sourceTree = "<group>"; };
 		07AE3D3A1C8D552E00675EDC /* ContentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentView.xib; sourceTree = "<group>"; };
 		07AE3D3C1C8D556700675EDC /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		07AE3D3E1C8D63EE00675EDC /* PAUIViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PAUIViewLayout.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				078FFE3F1C7C5DA60061BEC7 /* Info.plist */,
 				07AE3D3A1C8D552E00675EDC /* ContentView.xib */,
 				07AE3D3C1C8D556700675EDC /* ContentView.swift */,
+				07930C611C9A9C55004418B2 /* MyViewPagerViewController.swift */,
 			);
 			path = PAViewPagerDemo;
 			sourceTree = "<group>";
@@ -159,6 +162,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07930C621C9A9C55004418B2 /* MyViewPagerViewController.swift in Sources */,
 				072CA6211C970C9C0084B3E9 /* PAViewPagerViewController.swift in Sources */,
 				078FFE471C7C5DE30061BEC7 /* PAViewPager.swift in Sources */,
 				078FFE361C7C5DA60061BEC7 /* ViewPagerDemoViewController.swift in Sources */,

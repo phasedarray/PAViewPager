@@ -309,7 +309,8 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         {
             return 0
         }
-        return delegate.numberOfPageInViewPager(self)
+        numberOfItems = delegate.numberOfPageInViewPager(self)
+        return numberOfItems
     }
     
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell

@@ -52,6 +52,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="SD8-yr-m9e" kind="show" id="zHZ-VO-MKh"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -142,6 +145,42 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="82X-a6-i0U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2013" y="180"/>
+        </scene>
+        <!--My View Pager View Controller-->
+        <scene sceneID="fG2-cP-TbI">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="SD8-yr-m9e" customClass="MyViewPagerViewController" customModule="PAViewPagerDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gCr-Zu-ETL"/>
+                        <viewControllerLayoutGuide type="bottom" id="qIg-Of-grq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="79a-nI-OIe">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pOG-2q-FY4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2013" y="865"/>
+        </scene>
+        <!--Tab0-->
+        <scene sceneID="4TS-Iy-BQa">
+            <objects>
+                <viewController storyboardIdentifier="tab0" title="Tab0" automaticallyAdjustsScrollViewInsets="NO" id="OnR-Lf-kw4" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8tl-vD-Dh1"/>
+                        <viewControllerLayoutGuide type="bottom" id="0xK-Jd-q5Z"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gvf-yN-0tv">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lwv-rf-Ekx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2673" y="865"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="TpO-Rt-09l">
