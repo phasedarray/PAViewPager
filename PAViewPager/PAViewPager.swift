@@ -144,6 +144,14 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             adjustSelectionIndicator()
         }
     }
+    
+    public var allowBound:Bool = true
+    {
+        didSet
+        {
+            self.contentCollectionView.bounces = allowBound
+        }
+    }
 
     
     public var selectionIndicatorView: UIView
