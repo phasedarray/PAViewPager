@@ -145,11 +145,11 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         }
     }
     
-    public var allowBound:Bool = true
+    public var allowBounces:Bool = true
     {
         didSet
         {
-            self.contentCollectionView.bounces = allowBound
+            self.contentCollectionView.bounces = allowBounces
         }
     }
 
