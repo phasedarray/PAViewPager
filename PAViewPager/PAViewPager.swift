@@ -122,7 +122,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     }
     
     // MARK: SelectionIndicator parameters
-    public var selectionIndicatorHeight: CGFloat = 44
+    public var selectionIndicatorHeight: CGFloat = 4
     {
         didSet
         {
@@ -221,6 +221,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         }
         self.contentCollectionView.pagingEnabled = true
         self.contentCollectionView.showsHorizontalScrollIndicator = false
+        self.contentCollectionView.backgroundColor = UIColor.clearColor()
         tabView.addSubview(selectionIndicatorView)
         tabView.addSubview(tabCollectionView)
         self.addSubview(contentCollectionView)
