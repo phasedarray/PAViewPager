@@ -223,8 +223,8 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         self.contentCollectionView.showsHorizontalScrollIndicator = false
         tabView.addSubview(selectionIndicatorView)
         tabView.addSubview(tabCollectionView)
-        self.addSubview(tabView)
         self.addSubview(contentCollectionView)
+        self.addSubview(tabView)
         self.addConstraintsToSubviews()
         self.selectionIndicatorView.backgroundColor = tabSelectedBackgroundColor
     }
@@ -253,7 +253,11 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     
     func reloadData()
     {
-        numberOfItems = tabCollectionView.numberOfItemsInSection(0)
+        guard let delegate = self.delegate else
+        {
+            return
+        }
+        numberOfItems = delegate.numberOfPageInViewPager(self)
         self.tabCollectionView.reloadData()
         self.contentCollectionView.reloadData()
     }
@@ -305,11 +309,6 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        guard let delegate = self.delegate else
-        {
-            return 0
-        }
-        numberOfItems = delegate.numberOfPageInViewPager(self)
         return numberOfItems
     }
     
@@ -472,12 +471,9 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             titleLabel!.text = title
             titleLabel!.font = self.titleFont
             titleLabel!.textColor = self.titleColor
-            if let selected = self.tabCollectionView.indexPathsForSelectedItems()
+            if indexPath.row == _selectedIndex
             {
-                if selected.contains(indexPath)
-                {
-                    titleLabel!.textColor = self.selectedTitleColor
-                }
+                titleLabel!.textColor = self.selectedTitleColor
             }
             return cell
         }
@@ -515,26 +511,41 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         {
             width = CGRectGetWidth(self.frame) / CGFloat(numberOfItems)
         }
-        if let cell = self.tabCollectionView.cellForItemAtIndexPath(NSIndexPath(forRow: self.selectedIndex(), inSection: 0))
-        {
-            if let superview = cell.superview
-            {
-                let x = superview.convertPoint(cell.center, toView: self.tabView).x
-                let block = {
-                    self.selectionIndicatorHorizontalConstraints[0].constant = x - width / 2
-                    self.layoutIfNeeded()
-                }
-                if animated
-                {
-                    self.layoutIfNeeded()
-                    UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: block, completion: nil)
-                }
-                else
-                {
-                    block()
-                }
-            }
+//        if let cell = self.tabCollectionView.cellForItemAtIndexPath(NSIndexPath(forRow: self.selectedIndex(), inSection: 0))
+//        {
+//            if let superview = cell.superview
+//            {
+//                let x = superview.convertPoint(cell.center, toView: self.tabView).x
+//                let block = {
+//                    self.selectionIndicatorHorizontalConstraints[0].constant = x - width / 2
+//                    self.layoutIfNeeded()
+//                }
+//                if animated
+//                {
+//                    self.layoutIfNeeded()
+//                    UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: block, completion: nil)
+//                }
+//                else
+//                {
+//                    block()
+//                }
+//            }
+//        }
+        let block = {
+            let segWith = CGRectGetWidth(self.frame) / CGFloat(self.numberOfItems)
+            self.selectionIndicatorHorizontalConstraints[0].constant = (CGFloat(self.selectedIndex()) + 0.5) * segWith - width / 2
+            self.layoutIfNeeded()
         }
+        if animated
+        {
+            self.layoutIfNeeded()
+            UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: block, completion: nil)
+        }
+        else
+        {
+            block()
+        }
+        
         self.selectionIndicatorHorizontalConstraints[1].constant = width
     }
 }
