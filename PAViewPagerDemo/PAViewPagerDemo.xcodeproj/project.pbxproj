@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		072CA6211C970C9C0084B3E9 /* PAViewPagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072CA6201C970C9C0084B3E9 /* PAViewPagerViewController.swift */; };
+		07464D2A1C9FE4A5008AD39E /* MyContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07464D291C9FE4A5008AD39E /* MyContentViewController.swift */; };
 		078FFE341C7C5DA60061BEC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078FFE331C7C5DA60061BEC7 /* AppDelegate.swift */; };
 		078FFE361C7C5DA60061BEC7 /* ViewPagerDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078FFE351C7C5DA60061BEC7 /* ViewPagerDemoViewController.swift */; };
 		078FFE391C7C5DA60061BEC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 078FFE371C7C5DA60061BEC7 /* Main.storyboard */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		072CA6201C970C9C0084B3E9 /* PAViewPagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PAViewPagerViewController.swift; sourceTree = "<group>"; };
+		07464D291C9FE4A5008AD39E /* MyContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyContentViewController.swift; sourceTree = "<group>"; };
 		078FFE301C7C5DA60061BEC7 /* PAViewPagerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PAViewPagerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		078FFE331C7C5DA60061BEC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		078FFE351C7C5DA60061BEC7 /* ViewPagerDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPagerDemoViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				07AE3D3A1C8D552E00675EDC /* ContentView.xib */,
 				07AE3D3C1C8D556700675EDC /* ContentView.swift */,
 				07930C611C9A9C55004418B2 /* MyViewPagerViewController.swift */,
+				07464D291C9FE4A5008AD39E /* MyContentViewController.swift */,
 			);
 			path = PAViewPagerDemo;
 			sourceTree = "<group>";
@@ -162,6 +165,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07464D2A1C9FE4A5008AD39E /* MyContentViewController.swift in Sources */,
 				07930C621C9A9C55004418B2 /* MyViewPagerViewController.swift in Sources */,
 				072CA6211C970C9C0084B3E9 /* PAViewPagerViewController.swift in Sources */,
 				078FFE471C7C5DE30061BEC7 /* PAViewPager.swift in Sources */,

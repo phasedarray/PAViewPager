@@ -19,6 +19,9 @@ import UIKit
     
     optional func viewPager(viewPager: PAViewPager, reusableIdentifierForTitleViewIndex: Int) -> String
     optional func viewPager(viewPager: PAViewPager, resuableTitleView: UIView?, titleViewForIndex: Int) -> UIView
+    
+    optional func viewPager(viewPager: PAViewPager, willShowViewAtIndex: Int, animated: Bool) -> Void
+    optional func viewPager(viewPager: PAViewPager, didShowViewAtIndex: Int, previousIndex: Int, animated: Bool) -> Void
 }
 
 public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource
@@ -171,7 +174,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     var verticalLayoutConstraints: [NSLayoutConstraint] = []
     public var tabView: UIView
     
-    private var _selectedIndex:Int = 0
+    private var _selectedIndex:Int = -1
 
     @IBOutlet weak var delegate: PAViewPagerDelegate?
     {
@@ -240,7 +243,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
     
     public func setSelectedIndex(index: Int, animated: Bool)
     {
-        if index < numberOfItems
+        if index < numberOfItems && index != _selectedIndex
         {
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
             if self.tabCollectionView.indexPathsForSelectedItems()?.count > 0
@@ -248,7 +251,6 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
                 self.tabCollectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .CenteredHorizontally)
             }
             self.collectionView(tabCollectionView, didDeselectItemAtIndexPath: NSIndexPath(forRow: _selectedIndex, inSection: 0))
-            _selectedIndex = index
             self.collectionView(tabCollectionView, didSelectItemAtIndexPath: indexPath)
             self.contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Left, animated: animated && allowScroll)
             adjustSelectionIndicator(needAnimateSelectionIndictor)
@@ -269,6 +271,14 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         numberOfItems = delegate.numberOfPageInViewPager(self)
         self.tabCollectionView.reloadData()
         self.contentCollectionView.reloadData()
+        if numberOfItems == 0
+        {
+            _selectedIndex = -1
+        }
+        if _selectedIndex > numberOfItems || (_selectedIndex == -1 && numberOfItems > 0)
+        {
+            self.setSelectedIndex(0, animated: false)
+        }
     }
     
     public override func layoutSubviews() {
@@ -277,7 +287,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         self.tabCollectionView.collectionViewLayout.invalidateLayout()
         self.contentCollectionView.collectionViewLayout.invalidateLayout()
         
-        if (_selectedIndex < numberOfItems)
+        if (_selectedIndex < numberOfItems && _selectedIndex != -1)
         {
             let indexPath = NSIndexPath(forRow: _selectedIndex, inSection: 0)
             if let indexes = self.tabCollectionView.indexPathsForSelectedItems()
@@ -388,6 +398,25 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         if collectionView == tabCollectionView
         {
             let offset = abs(indexPath.row - _selectedIndex)
+            var animated = false
+            switch(animatedScrollWhenTappingTab)
+            {
+            case .None:
+                animated = false
+                
+            case .All:
+                animated = true
+            case .Adjacent:
+                animated = (offset == 1)
+            }
+            if let delegate = self.delegate
+            {
+                if delegate.respondsToSelector("viewPager:willShowViewAtIndex:animated:")
+                {
+                    delegate.viewPager!(self, willShowViewAtIndex: indexPath.row, animated: animated)
+                }
+            }
+            let oldIndex = _selectedIndex
             _selectedIndex = indexPath.row
             if let cell = self.tabCollectionView.cellForItemAtIndexPath(indexPath)
             {
@@ -399,20 +428,14 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
                     }
                 }
             }
-            var anmiated = false
-            switch(animatedScrollWhenTappingTab)
-            {
-            case .None:
-                    anmiated = false
-                
-            case .All:
-                    anmiated = true
-            case .Adjacent:
-                    anmiated = (offset == 1)
-            }
+
             
-            contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: anmiated && allowScroll)
+            contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: animated && allowScroll)
             adjustSelectionIndicator(needAnimateSelectionIndictor)
+            if let delegate = self.delegate where delegate.respondsToSelector("viewPager:didShowViewAtIndex:previousIndex:animated:")
+            {
+                delegate.viewPager!(self, didShowViewAtIndex: indexPath.row, previousIndex: oldIndex, animated: animated)
+            }
         }
     }
     

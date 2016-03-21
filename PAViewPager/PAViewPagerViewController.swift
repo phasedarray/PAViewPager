@@ -29,10 +29,14 @@ public class PAViewPagerViewController: UIViewController, PAViewPagerDelegate {
         didSet(oldValues)
         {
             oldValues.forEach { (vc) -> () in
+                vc.willMoveToParentViewController(nil)
                 vc.removeFromParentViewController()
+                vc.didMoveToParentViewController(nil)
             }
             subViewControllers.forEach { (vc) -> () in
+                vc.willMoveToParentViewController(self)
                 self.addChildViewController(vc)
+                vc.didMoveToParentViewController(self)
                 
             }
             viewPager.reloadData()
@@ -43,7 +47,7 @@ public class PAViewPagerViewController: UIViewController, PAViewPagerDelegate {
         super.viewDidLoad()
         self.setup()
     }
-    
+        
     public func numberOfPageInViewPager(viewPager: PAViewPager) -> Int
     {
         return self.subViewControllers.count
@@ -68,11 +72,35 @@ public class PAViewPagerViewController: UIViewController, PAViewPagerDelegate {
         return ""
     }
     
+    public func viewPager(viewPager: PAViewPager, willShowViewAtIndex: Int, animated: Bool) -> Void
+    {
+        if viewPager.selectedIndex() >= 0
+        {
+            let oldVC = self.subViewControllers[viewPager.selectedIndex()]
+            oldVC.viewWillDisappear(animated)
+        }
+        let newVC = self.subViewControllers[willShowViewAtIndex]
+        newVC.viewWillAppear(animated)
+        
+    }
+    
+    public func viewPager(viewPager: PAViewPager, didShowViewAtIndex: Int, previousIndex:Int, animated: Bool) -> Void
+    {
+        if previousIndex >= 0
+        {
+            let oldVC = self.subViewControllers[previousIndex]
+            oldVC.viewDidDisappear(animated)
+        }
+        let newVC = self.subViewControllers[didShowViewAtIndex]
+        newVC.viewDidAppear(animated)
+    }
+    
     private func setup()
     {
         self.view.addSubview( self.viewPager)
         self.viewPager.fillParent(.Both)
         self.viewPager.delegate = self
         self.viewPager.setAsNormalTabBarStyle(PAViewPager.TabPosition.Top)
+        self.viewPager.allowScroll = true
     }
 }
