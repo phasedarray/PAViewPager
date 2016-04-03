@@ -350,7 +350,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             return self.contentCollectionView.dequeueReusableCellWithReuseIdentifier(indentifier, forIndexPath: indexPath)
         }
         
-        if delegate.respondsToSelector("viewPager:reusableIdentifierForIndex:")
+        if delegate.respondsToSelector(#selector(PAViewPagerDelegate.viewPager(_:reusableIdentifierForIndex:)))
         {
             indentifier = delegate.viewPager!(self, reusableIdentifierForIndex: indexPath.row)
             if contentDequeueDictionary[indentifier] == nil
@@ -360,7 +360,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             }
         }
         let cell = self.contentCollectionView.dequeueReusableCellWithReuseIdentifier(indentifier, forIndexPath: indexPath)
-        if delegate.respondsToSelector("viewPager:resuableView:viewForIndex:")
+        if delegate.respondsToSelector(#selector(PAViewPagerDelegate.viewPager(_:resuableView:viewForIndex:)))
         {
             let view = delegate.viewPager(self, resuableView: cell.contentView.viewWithTag(kCommonTag), viewForIndex: indexPath.row)
             view.tag = kCommonTag
@@ -411,7 +411,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             }
             if let delegate = self.delegate
             {
-                if delegate.respondsToSelector("viewPager:willShowViewAtIndex:animated:")
+                if delegate.respondsToSelector(#selector(PAViewPagerDelegate.viewPager(_:willShowViewAtIndex:animated:)))
                 {
                     delegate.viewPager!(self, willShowViewAtIndex: indexPath.row, animated: animated)
                 }
@@ -420,7 +420,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             _selectedIndex = indexPath.row
             if let cell = self.tabCollectionView.cellForItemAtIndexPath(indexPath)
             {
-                if delegate != nil && delegate!.respondsToSelector("viewPager:titleForIndex:")
+                if delegate != nil && delegate!.respondsToSelector(#selector(PAViewPagerDelegate.viewPager(_:titleForIndex:)))
                 {
                     if let titleLabel = cell.contentView.viewWithTag(kCommonTag) as? UILabel
                     {
@@ -432,7 +432,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             
             contentCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: animated && allowScroll)
             adjustSelectionIndicator(needAnimateSelectionIndictor)
-            if let delegate = self.delegate where delegate.respondsToSelector("viewPager:didShowViewAtIndex:previousIndex:animated:")
+            if let delegate = self.delegate where delegate.respondsToSelector(#selector(PAViewPagerDelegate.viewPager(_:didShowViewAtIndex:previousIndex:animated:)))
             {
                 delegate.viewPager!(self, didShowViewAtIndex: indexPath.row, previousIndex: oldIndex, animated: animated)
             }
@@ -445,7 +445,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         {
             if let cell = self.tabCollectionView.cellForItemAtIndexPath(indexPath)
             {
-                if delegate != nil && delegate!.respondsToSelector("viewPager:titleForIndex:")
+                if delegate != nil && delegate!.respondsToSelector(#selector(PAViewPagerDelegate.viewPager(_:titleForIndex:)))
                 {
                     if let titleLabel = cell.contentView.viewWithTag(kCommonTag) as? UILabel
                     {
@@ -483,7 +483,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
         {
             return self.tabCollectionView.dequeueReusableCellWithReuseIdentifier(indentifier, forIndexPath: indexPath)
         }
-        if delegate.respondsToSelector("viewPager:titleForIndex:")
+        if delegate.respondsToSelector(#selector(PAViewPagerDelegate.viewPager(_:titleForIndex:)))
         {
             let cell = self.tabCollectionView.dequeueReusableCellWithReuseIdentifier(titleCellIndentifier, forIndexPath: indexPath)
             cell.backgroundColor = UIColor.clearColor()
@@ -509,7 +509,7 @@ public class PAViewPager: UIView, UICollectionViewDelegateFlowLayout, UICollecti
             }
             return cell
         }
-        if delegate.respondsToSelector("viewPager:reusableIdentifierForTitleViewIndex:")
+        if delegate.respondsToSelector(#selector(PAViewPagerDelegate.viewPager(_:reusableIdentifierForTitleViewIndex:)))
         {
             indentifier = delegate.viewPager!(self, reusableIdentifierForTitleViewIndex: indexPath.row)
             if tabDequeueDictionary[indentifier] == nil
